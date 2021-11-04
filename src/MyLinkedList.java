@@ -5,7 +5,7 @@ import java.util.*;
 /**
  * Singly Linked-list (generic)
  */
-public class MyLinkedList<E> {
+public class MyLinkedList<E>  {
 
   private Node<E> head, tail; // null
   private int size; // 0
@@ -83,7 +83,15 @@ public class MyLinkedList<E> {
     if (t == null) {
       throw new NoSuchElementException("list is empty");
     }
-    E data = t.data;
+    Node<E> current = head;
+    for(int i = 1; i < size - 1; i++) {
+      current = current.next;
+    }
+    Node<E> temp = tail;
+    tail = current;
+    tail.next = null;
+    size--;
+    return temp.data;
   }
 
   // O(1)
@@ -154,7 +162,11 @@ public class MyLinkedList<E> {
    */
   public boolean remove(E e) {
     // TODO: Implement Me
-    return true;
+    if (indexOf(e) >=0 ) {
+       remove(indexOf(e));
+      return true;
+    } else {
+      return false;}
   }
 
   /**
@@ -165,7 +177,11 @@ public class MyLinkedList<E> {
    */
   public boolean remove(int index) {
     // TODO: Implement Me
-    return true;
+    if (index >= 0 || index < size) {
+      remove(index);
+      return true;
+    }
+    return false;
   }
 
 
@@ -180,6 +196,21 @@ public class MyLinkedList<E> {
    */
   public int lastIndexOf(E e) {
     // TODO: Implement Me
+    final Node<E> t = tail;
+    E data = t.data;
+    if(e.equals(t.data)){
+  }else {
+    Node<E> current = head;
+    E data1 = current.data;
+    int result = -1;
+    for(int i = 1; i < size; i++) {
+      current = current.next;
+      if(e.equals(current.data)) {
+        result = i;
+      }
+    }
+    return result;
+  }
     return -1;
   }
 
@@ -191,6 +222,22 @@ public class MyLinkedList<E> {
    */
   public void reverse() {
     // TODO: Implement Me
+    if (head.next == null || head.next.next == null){
+      return;
+    }
+    Node reverseHead = new Node(0,null);
+    Node cur = head.next;
+    Node next = null;
+    while (true){
+      if (cur == null){
+        break;
+      }
+      next = cur.next;
+      cur.next = reverseHead.next;
+      reverseHead.next = cur;
+      cur = next;
+    }
+    head.next = reverseHead.next;
   }
 
   // O(N)
